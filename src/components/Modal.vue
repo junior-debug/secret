@@ -2,56 +2,50 @@
 export default {
   name: "Modal",
   data() {
-      return {
-          table: [],
-          colorTable: []
-      }
+    return {
+      tablet: [],
+      select: [],
+    };
   },
-  mounted(){
+  mounted() {
     for (let i = 1; i < 11; i++) {
-      this.table.push('')
+      this.tablet.push({ codigo: "", compania: "", rif: "", telefono: "" })
+      this.select.push(i)
     }
-  }
+  },
+  
 };
 </script>
 <template>
   <div class="container">
     <h1>Lista de clientes</h1>
     <div class="header">
-        <div class="filter">
-            <p>Mostrar</p>
-            <select>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10" selected>10</option>
-            </select>
-            <p>Registros</p>
-        </div>
-        <div class="search">
-            <p>Buscar</p>
-            <input type="text" />
-        </div>
+      <div class="filter">
+        <p>Mostrar</p>
+        <select>
+          <option v-for="item in select" :key="item">{{ item }}</option>
+        </select>
+        <p>Registros</p>
+      </div>
+      <div class="search">
+        <p>Buscar</p>
+        <input type="text" />
+      </div>
     </div>
     <table>
-      <tr>
+      <tr class="headerTable">
         <th class="code">Codigo</th>
         <th>Compania</th>
         <th>Rif</th>
         <th>Telefono</th>
       </tr>
-      <tr v-for="item in table">
-        <td style="">{{item}}</td>
-        <td style="">{{item}}</td>
-        <td style="">{{item}}</td>
-        <td style="">{{item}}</td>
+      <tr v-for="item in tablet">
+        <td >{{item.codigo}}</td>
+        <td>{{item.compania}}</td>
+        <td>{{item.rif}}</td>
+        <td>{{item.telefono}}</td>
       </tr>
+      
     </table>
     <div class="footer">
       <p>1 al 10 de un Total de 453 registros</p>
@@ -59,7 +53,11 @@ export default {
         <button>Primero</button>
         <button>Anterior</button>
         <div class="numbers">
-          <p>1</p><p>2</p><p>3</p><p>4</p><p>5</p>
+          <p>1</p>
+          <p>2</p>
+          <p>3</p>
+          <p>4</p>
+          <p>5</p>
         </div>
         <button>Siguiente</button>
         <button>Último</button>
@@ -72,33 +70,43 @@ h1 {
   font-family: "Roboto", sans-serif;
   font-weight: lighter;
   font-size: 23px;
+  color:  #5f87bb;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #aeadac;
 }
 .container {
-    width: 50%;
-    height: 400px;
+  width: 50%;
+  height: 400px;
 }
 p {
   font-family: "Roboto", sans-serif;
   font-weight: lighter;
   font-size: 15px;
+   color: #202020;
 }
 table {
   font-family: "Roboto", sans-serif;
-  font-weight: lighter;
   font-size: 15px;
   width: 100%;
+  border-spacing: 0.3px;
+  color: #202020;
 }
-tr {    
-  text-align:center;
+tr {
+  text-align: center;
 }
 td {
   height: 30px;
-  background: rgb(170, 228, 255);
+}
+th{
+  background: linear-gradient(to bottom, rgb(241, 241, 241), rgb(225, 225, 225), rgb(241, 241, 241));
+  
 }
 button {
   height: 25px;
 }
-.code{
+
+.code {
   width: 80px;
 }
 .header {
@@ -106,16 +114,28 @@ button {
   height: 20px;
   align-items: center;
   justify-content: space-between;
+  padding: 8px 5px;
+  background: linear-gradient(to bottom, rgb(224, 224, 224), rgb(195, 195, 195), rgb(224, 224, 224));
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #aeadac;
 }
 .filter {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
+
+.filter p, select {
+  margin-right: 5px;
+}
+
 .search {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-.footer{
+.search input {
+  margin-left: 5px;
+}
+.footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -124,7 +144,7 @@ button {
   display: flex;
   align-items: center;
 }
-.numbers{
+.numbers {
   display: flex;
 }
 </style>
