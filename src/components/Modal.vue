@@ -104,6 +104,8 @@ th{
 }
 button {
   height: 25px;
+  border-radius: 3px;
+  border: 1px solid #a4a4a4;
 }
 
 .code {
@@ -139,6 +141,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: linear-gradient(to bottom, rgb(224, 224, 224), rgb(195, 195, 195), rgb(224, 224, 224));
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #aeadac;
+  padding: 3px 10px;
 }
 .page {
   display: flex;
@@ -146,5 +152,15 @@ button {
 }
 .numbers {
   display: flex;
+}
+.numbers p {
+  height: 23px;
+  border: 1px solid #a4a4a4;
+  border-radius: 3px;
+  width: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
 }
 </style>
