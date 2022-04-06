@@ -5,23 +5,26 @@ export default {
     return {
       tablet: [],
       select: [],
+      modalActive: false
     };
   },
   mounted() {
     for (let i = 1; i < 11; i++) {
-      this.tablet.push({ codigo: "", compania: "", rif: "", telefono: "" })
+      this.tablet.push({ codigo: "", compania: "", rif: "", telefono: ""})
       this.select.push(i)
     }
+    console.log(this.modalActive)
   },
   
 };
 </script>
 <template>
-  <div class="container">
+  <button v-if="modalActive === false" @click="modalActive = true">Data</button>
+  <div v-if="modalActive" class="container">
     <h1>Lista de clientes</h1>
     <div class="header">
       <div class="filter">
-        <p>Mostrar</p>
+        <p ref="codigo">Mostrar</p>
         <select>
           <option v-for="item in select" :key="item">{{ item }}</option>
         </select>
@@ -39,11 +42,11 @@ export default {
         <th>Rif</th>
         <th>Telefono</th>
       </tr>
-      <tr v-for="item in tablet">
-        <td >{{item.codigo}}</td>
-        <td>{{item.compania}}</td>
-        <td>{{item.rif}}</td>
-        <td>{{item.telefono}}</td>
+      <tr v-for="(index, item) in tablet" :key="index">
+        <td :style="[item % 2 === 0 ? 'background: #d3d6ff' : 'background: #eaebff']">{{item.codigo}}</td>
+        <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.compania}}</td>
+        <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.rif}}</td>
+        <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.telefono}}</td>
       </tr>
       
     </table>
