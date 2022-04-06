@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "vue": "^3.2.31",
+    "vue-paginate": "^3.6.0",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {

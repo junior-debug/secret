@@ -41,7 +41,7 @@ export default {
         <th>Rif</th>
         <th>Telefono</th>
       </tr>
-      <tr v-for="(index, item) in tablet" :key="index">
+      <tr v-for="(item, index) in tablet" :key="index">
         <td :style="[item % 2 === 0 ? 'background: #d3d6ff' : 'background: #eaebff']">{{item.codigo}}</td>
         <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.compania}}</td>
         <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.rif}}</td>
