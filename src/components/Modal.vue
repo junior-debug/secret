@@ -13,7 +13,6 @@ export default {
       this.tablet.push({ codigo: "", compania: "", rif: "", telefono: ""})
       this.select.push(i)
     }
-    console.log(this.modalActive)
   },
   
 };
@@ -21,7 +20,7 @@ export default {
 <template>
   <button v-if="modalActive === false" @click="modalActive = true">Data</button>
   <div v-if="modalActive" class="container">
-    <h1>Lista de clientes</h1>
+    <h1 style="display:flex; justify-content:space-between;">Lista de clientes <img src="@/components/icons/cerrar.png" @click="modalActive = false" style="width:25px; height:25px; cursor: pointer" alt="X"></h1>
     <div class="header">
       <div class="filter">
         <p ref="codigo">Mostrar</p>
@@ -78,9 +77,16 @@ h1 {
   border-bottom-width: 0.1px;
   border-bottom-color: #aeadac;
 }
+button {
+  cursor: pointer
+}
 .container {
   width: 50%;
   height: 400px;
+  position: absolute;
+  z-index: 2;
+  top: 15vh;
+  left: 26vw;
 }
 p {
   font-family: "Roboto", sans-serif;
