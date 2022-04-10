@@ -1,17 +1,25 @@
 <script>
+import axios from "axios"
 export default {
   name: "Modal",
   data() {
     return {
       tablet: [],
       select: [],
-      modalActive: false
+      modalActive: false,
+      NUM_RESULTS: 10
     };
   },
+
   mounted() {
+    const api = async () => {
+      const response = await axios.get('https://mocki.io/v1/cab21324-d718-437f-8d59-a57d8ebaca3d')
+      this.tablet = response.data 
+    }
+    api()
     for (let i = 1; i < 11; i++) {
-      this.tablet.push({ codigo: "", compania: "", rif: "", telefono: ""})
       this.select.push(i)
+      
     }
   },
   
@@ -42,10 +50,10 @@ export default {
         <th>Telefono</th>
       </tr>
       <tr v-for="(item, index) in tablet" :key="index">
-        <td :style="[item % 2 === 0 ? 'background: #d3d6ff' : 'background: #eaebff']">{{item.codigo}}</td>
-        <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.compania}}</td>
-        <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.rif}}</td>
-        <td :style="[item % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.telefono}}</td>
+        <td v-show="index > -1 && index < 10" :style="[index % 2 === 0 ? 'background: #d3d6ff' : 'background: #eaebff']">{{item.codigo}}</td>
+        <td v-show="index > -1 && index < 10"  :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.compania}}</td>
+        <td v-show="index > -1 && index < 10"  :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.rif}}</td>
+        <td v-show="index > -1 && index < 10"  :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.telefono}}</td>
       </tr>
       
     </table>
