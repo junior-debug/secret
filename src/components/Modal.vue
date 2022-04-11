@@ -7,7 +7,9 @@ export default {
       tablet: [],
       select: [],
       modalActive: false,
-      NUM_RESULTS: 10
+      minPage: -1,
+      maxPage: 10,
+      numberList: 10
     };
   },
 
@@ -15,13 +17,38 @@ export default {
     const api = async () => {
       const response = await axios.get('https://mocki.io/v1/cab21324-d718-437f-8d59-a57d8ebaca3d')
       this.tablet = response.data 
+      console.log()
     }
     api()
     for (let i = 1; i < 11; i++) {
       this.select.push(i)
       
     }
+    
   },
+  methods: {
+    primero(){
+      this.minPage = -1
+      this.maxPage = 10
+    },
+    ultimo(){
+      this.minPage = this.tablet.length - 11
+      this.maxPage = this.tablet.length
+    },
+    siguiente(){
+      if (this.maxPage < this.tablet.length) {
+        this.minPage = this.minPage + 10
+        this.maxPage = this.maxPage + 10
+      }
+
+    },
+    anterior(){
+      if (this.minPage > this.tablet.indexOf(this.tablet[0])) {
+        this.minPage = this.minPage - 10
+        this.maxPage = this.maxPage - 10
+      }
+    }
+  }
   
 };
 </script>
@@ -50,18 +77,18 @@ export default {
         <th>Telefono</th>
       </tr>
       <tr v-for="(item, index) in tablet" :key="index">
-        <td v-show="index > -1 && index < 10" :style="[index % 2 === 0 ? 'background: #d3d6ff' : 'background: #eaebff']">{{item.codigo}}</td>
-        <td v-show="index > -1 && index < 10"  :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.compania}}</td>
-        <td v-show="index > -1 && index < 10"  :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.rif}}</td>
-        <td v-show="index > -1 && index < 10"  :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.telefono}}</td>
+        <td v-show="index > minPage && index < maxPage" :style="[index % 2 === 0 ? 'background: #d3d6ff' : 'background: #eaebff']">{{item.codigo}}</td>
+        <td v-show="index > minPage && index < maxPage" :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.compania}}</td>
+        <td v-show="index > minPage && index < maxPage" :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.rif}}</td>
+        <td v-show="index > minPage && index < maxPage" :style="[index % 2 === 0 ? 'background: #e2e3ff' : 'background: white']">{{item.telefono}}</td>
       </tr>
       
     </table>
     <div class="footer">
-      <p>1 al 10 de un Total de 453 registros</p>
+      <p>1 al 10 de un Total de {{tablet.length}} registros</p>
       <div class="page">
-        <button>Primero</button>
-        <button>Anterior</button>
+        <button @click="primero">Primero</button>
+        <button @click="anterior">Anterior</button>
         <div class="numbers">
           <p>1</p>
           <p>2</p>
@@ -69,8 +96,8 @@ export default {
           <p>4</p>
           <p>5</p>
         </div>
-        <button>Siguiente</button>
-        <button>Último</button>
+        <button @click="siguiente">Siguiente</button>
+        <button @click="ultimo">Último</button>
       </div>
     </div>
   </div>
