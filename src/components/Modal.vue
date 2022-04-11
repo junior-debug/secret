@@ -9,20 +9,21 @@ export default {
       modalActive: false,
       minPage: -1,
       maxPage: 10,
-      numberList: 10
+      numberList: 10,
+      page: Number
     };
   },
 
   mounted() {
     const api = async () => {
-      const response = await axios.get('https://mocki.io/v1/cab21324-d718-437f-8d59-a57d8ebaca3d')
+      const response = await axios.get('https://mocki.io/v1/3abed40a-124a-4aa9-8502-3ff4f2179866')
       this.tablet = response.data 
-      console.log()
+      this.page = Math.ceil(response.data.length / 10)
+      console.log(this.page)
     }
     api()
     for (let i = 1; i < 11; i++) {
       this.select.push(i)
-      
     }
     
   },
@@ -35,12 +36,11 @@ export default {
       this.minPage = this.tablet.length - 11
       this.maxPage = this.tablet.length
     },
-    siguiente(){
+    siguiente(number){
       if (this.maxPage < this.tablet.length) {
-        this.minPage = this.minPage + 10
-        this.maxPage = this.maxPage + 10
+        this.minPage = this.minPage + number
+        this.maxPage = this.maxPage + number
       }
-
     },
     anterior(){
       if (this.minPage > this.tablet.indexOf(this.tablet[0])) {
@@ -49,7 +49,6 @@ export default {
       }
     }
   }
-  
 };
 </script>
 <template>
@@ -89,14 +88,16 @@ export default {
       <div class="page">
         <button @click="primero">Primero</button>
         <button @click="anterior">Anterior</button>
+        <!--
         <div class="numbers">
-          <p>1</p>
-          <p>2</p>
-          <p>3</p>
-          <p>4</p>
-          <p>5</p>
+          <p v-if="page >= 1">1</p>
+          <p v-if="page >= 2" @click="siguiente(10)">2</p>
+          <p v-if="page >= 3" @click="siguiente(20)">3</p>
+          <p v-if="page >= 4" @click="siguiente(30)">4</p>
+          <p v-if="page >= 5" @click="siguiente(40)">5</p>
         </div>
-        <button @click="siguiente">Siguiente</button>
+        -->
+        <button @click="siguiente(10)">Siguiente</button>
         <button @click="ultimo">Último</button>
       </div>
     </div>
