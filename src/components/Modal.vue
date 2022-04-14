@@ -10,7 +10,8 @@ export default {
       minPage: -1,
       maxPage: 10,
       numberList: 10,
-      page: Number
+      page: Number,
+      itemsPage: 10
     };
   },
 
@@ -25,15 +26,21 @@ export default {
     for (let i = 1; i < 11; i++) {
       this.select.push(i)
     }
-    
+    if (this.modalActive) {
+      alert(this.$refs.selectPage)
+    }
   },
   methods: {
+    onChange(event) {
+        this.itemsPage = Number(event.target.value)
+        this.maxPage = Number(event.target.value)
+    },
     primero(){
       this.minPage = -1
-      this.maxPage = 10
+      this.maxPage = this.itemsPage
     },
     ultimo(){
-      this.minPage = this.tablet.length - 11
+      this.minPage = this.tablet.length - this.itemsPage - 1
       this.maxPage = this.tablet.length
     },
     siguiente(number){
@@ -42,12 +49,12 @@ export default {
         this.maxPage = this.maxPage + number
       }
     },
-    anterior(){
+    anterior(number){
       if (this.minPage > this.tablet.indexOf(this.tablet[0])) {
-        this.minPage = this.minPage - 10
-        this.maxPage = this.maxPage - 10
+        this.minPage = this.minPage - number
+        this.maxPage = this.maxPage - number
       }
-    }
+    },
   }
 };
 </script>
@@ -57,9 +64,9 @@ export default {
     <h1 style="display:flex; justify-content:space-between;">Lista de clientes <img src="@/components/icons/cerrar.png" @click="modalActive = false" style="width:25px; height:25px; cursor: pointer" alt="X"></h1>
     <div class="header">
       <div class="filter">
-        <p ref="codigo">Mostrar</p>
-        <select>
-          <option v-for="item in select" :key="item">{{ item }}</option>
+        <p>Mostrar</p>
+        <select ref="selectPage" @change="onChange($event)">
+          <option v-for="item in select" :selected="item === 10" :key="item">{{ item }}</option>
         </select>
         <p>Registros</p>
       </div>
@@ -84,10 +91,10 @@ export default {
       
     </table>
     <div class="footer">
-      <p>1 al 10 de un Total de {{tablet.length}} registros</p>
+      <p>1 al {{ itemsPage }} de un Total de {{tablet.length}} registros</p>
       <div class="page">
         <button @click="primero">Primero</button>
-        <button @click="anterior">Anterior</button>
+        <button @click="anterior(itemsPage)">Anterior</button>
         <!--
         <div class="numbers">
           <p v-if="page >= 1">1</p>
@@ -97,7 +104,7 @@ export default {
           <p v-if="page >= 5" @click="siguiente(40)">5</p>
         </div>
         -->
-        <button @click="siguiente(10)">Siguiente</button>
+        <button @click="siguiente(itemsPage)">Siguiente</button>
         <button @click="ultimo">Último</button>
       </div>
     </div>
