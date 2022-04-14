@@ -11,16 +11,17 @@ export default {
       maxPage: 10,
       numberList: 10,
       page: Number,
-      itemsPage: 10
+      itemsPage: 10,
+      search: '',
+      url: 'https://mocki.io/v1/3abed40a-124a-4aa9-8502-3ff4f2179866'
     };
   },
 
   mounted() {
     const api = async () => {
-      const response = await axios.get('https://mocki.io/v1/3abed40a-124a-4aa9-8502-3ff4f2179866')
+      const response = await axios.get(this.url)
       this.tablet = response.data 
-      this.page = Math.ceil(response.data.length / 10)
-      console.log(this.page)
+      //this.page = Math.ceil(response.data.length / 10)
     }
     api()
     for (let i = 1; i < 11; i++) {
@@ -31,9 +32,15 @@ export default {
     }
   },
   methods: {
-    onChange(event) {
+    onChangeSelect(event) {
         this.itemsPage = Number(event.target.value)
         this.maxPage = Number(event.target.value)
+    },
+    searchCompany(){
+      axios.get(this.url)
+      .then(res => {
+        this.tablet = res.data.filter(tablet => tablet.compania === this.search)
+      })
     },
     primero(){
       this.minPage = -1
@@ -59,20 +66,21 @@ export default {
 };
 </script>
 <template>
+  
   <button v-if="modalActive === false" @click="modalActive = true">Data</button>
   <div v-if="modalActive" class="container">
     <h1 style="display:flex; justify-content:space-between;">Lista de clientes <img src="@/components/icons/cerrar.png" @click="modalActive = false" style="width:25px; height:25px; cursor: pointer" alt="X"></h1>
     <div class="header">
       <div class="filter">
         <p>Mostrar</p>
-        <select ref="selectPage" @change="onChange($event)">
+        <select ref="selectPage" @change="onChangeSelect($event)">
           <option v-for="item in select" :selected="item === 10" :key="item">{{ item }}</option>
         </select>
         <p>Registros</p>
       </div>
       <div class="search">
         <p>Buscar</p>
-        <input type="text" />
+        <input v-model="search" v-on:keyup.enter="searchCompany" type="text" />
       </div>
     </div>
     <table>
